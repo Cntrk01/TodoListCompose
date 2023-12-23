@@ -1,9 +1,5 @@
 package com.example.todolistcompose.data.viewmodel
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todolistcompose.data.state.TodoState
@@ -23,7 +19,113 @@ class MainViewModel @Inject constructor(private val useCase : TodoUseCase) : Vie
     private val _state = MutableStateFlow(TodoState())
     val todoState : StateFlow<TodoState> = _state
 
-    //private val _insertTodo = MutableState()
+    fun addTodo(todo: Todo) = viewModelScope.launch {
+        useCase.addTodo(todo = todo).collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _state.update { itState->
+                        itState.copy(isLoading = true)
+                    }
+                }
+                is Response.Error->{
+                    _state.update { itState->
+                        itState.copy(errorMessage = itState.errorMessage)
+                    }
+                }
+                else -> {
+                    _state.update { itState->
+                        itState.copy(successfullMessage = "Todo Added Successfully")
+                    }
+                }
+            }
+        }
+    }
 
-    
+    fun updateTodo(todo: Todo) = viewModelScope.launch {
+        useCase.updateTodo(todo = todo).collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _state.update { itState->
+                        itState.copy(isLoading = true)
+                    }
+                }
+                is Response.Error->{
+                    _state.update { itState->
+                        itState.copy(errorMessage = itState.errorMessage)
+                    }
+                }
+                else -> {
+                    _state.update { itState->
+                        itState.copy(successfullMessage = "Todo Updated Successfully")
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteTodo(todo: Todo) = viewModelScope.launch {
+        useCase.deleteTodo(todo = todo).collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _state.update { itState->
+                        itState.copy(isLoading = true)
+                    }
+                }
+                is Response.Error->{
+                    _state.update { itState->
+                        itState.copy(errorMessage = itState.errorMessage)
+                    }
+                }
+                else -> {
+                    _state.update { itState->
+                        itState.copy(successfullMessage = "Todo Deleted Successfully")
+                    }
+                }
+            }
+        }
+    }
+
+    fun getTodoById(todo: Todo) = viewModelScope.launch {
+        useCase.getTodoWithId(todo = todo).collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _state.update { itState->
+                        itState.copy(isLoading = true)
+                    }
+                }
+                is Response.Error->{
+                    _state.update { itState->
+                        itState.copy(errorMessage = itState.errorMessage)
+                    }
+                }
+                else -> {
+                    _state.update { itState->
+                        itState.copy(todoWithId =itState.todoWithId)
+                    }
+                }
+            }
+        }
+    }
+
+    fun getAllTodo() = viewModelScope.launch {
+        useCase.getAllTodo().collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _state.update { itState->
+                        itState.copy(isLoading = true)
+                    }
+                }
+                is Response.Error->{
+                    _state.update { itState->
+                        itState.copy(errorMessage = itState.errorMessage)
+                    }
+                }
+                else -> {
+                    _state.update { itState->
+                        itState.copy(todoList = it.data)
+                    }
+                }
+            }
+        }
+    }
 }
