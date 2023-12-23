@@ -60,7 +60,7 @@ class TodoRepositoryImpl @Inject constructor(private val todoDao:TodoDao){
         }
     }
 
-    fun getAllTodo() : Flow<Response<List<Todo>>>{
+    suspend fun getAllTodo() : Flow<Response<List<Todo>>>{
         return flow{
             emit(Response.Loading())
             try {

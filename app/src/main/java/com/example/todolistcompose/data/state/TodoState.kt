@@ -6,5 +6,6 @@ data class TodoState(
     val isLoading : Boolean=false,
     val todoList : List<Todo> ?=null,
     val errorMessage:String ?=null,
-    val successfullMessage:String ?=null
+    val successfullMessage:String ?=null,
+    val todoWithId : Todo ?=null
 )

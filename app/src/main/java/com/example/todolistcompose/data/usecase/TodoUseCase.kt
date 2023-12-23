@@ -9,5 +9,5 @@ class TodoUseCase @Inject constructor(private val todoRepositoryImpl: TodoReposi
     suspend fun updateTodo(todo: Todo) = todoRepositoryImpl.updateTodo(todo = todo)
     suspend fun deleteTodo(todo: Todo) = todoRepositoryImpl.deleteTodo(todo = todo)
     suspend fun getTodoWithId(todo: Todo) = todoRepositoryImpl.getTodoWithId(todo = todo)
-    fun getAllTodo() = todoRepositoryImpl.getAllTodo()
+    suspend fun getAllTodo() = todoRepositoryImpl.getAllTodo()
 }
