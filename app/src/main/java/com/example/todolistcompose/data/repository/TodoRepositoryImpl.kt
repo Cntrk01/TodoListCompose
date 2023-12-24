@@ -3,7 +3,10 @@ package com.example.todolistcompose.data.repository
 import com.example.todolistcompose.data.local.TodoDao
 import com.example.todolistcompose.util.Response
 import com.example.todolistcompose.domain.model.Todo
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
@@ -44,13 +47,13 @@ class TodoRepositoryImpl @Inject constructor(private val todoDao:TodoDao){
             }
         }
     }
-    suspend fun getTodoWithId(todo: Todo): Flow<Response<Unit>>{
+    suspend fun getTodoWithId(todo: Int): Flow<Response<Todo>>{
         return flow {
             emit(Response.Loading())
             try {
-                val todoDetailId= todoDao.getTodoById(id = todo.id)
-                if (todo.id==todoDetailId.id){
-                    emit(Response.Success(Unit))
+                val todoDetailId= todoDao.getTodoById(id = todo)
+                if (todo==todoDetailId.id){
+                    emit(Response.Success(todoDetailId))
                 }else{
                     emit(Response.Error(message = "Except..."))
                 }
@@ -60,21 +63,20 @@ class TodoRepositoryImpl @Inject constructor(private val todoDao:TodoDao){
         }
     }
 
-    suspend fun getAllTodo() : Flow<Response<List<Todo>>>{
-        return flow{
-            emit(Response.Loading())
+    fun getAllTodo() : Flow<Response<List<Todo>>>{
+        return channelFlow{
+            trySend(Response.Loading())
             try {
                 val todoList=todoDao.getAllTodo()
                 todoList.collectLatest {
-                    if (it.isNotEmpty()){
-                        emit(Response.Success(it))
-                    }else{
-                        emit(Response.Error(message = "Except..."))
-                    }
+                    trySend(Response.Success(it))
                 }
             }catch (e:Exception){
-                emit(Response.Error(message = "Except..."))
+                trySend(Response.Error(message = "Except..."))
             }
+            awaitClose()
+        }.catch {
+
         }
     }
 

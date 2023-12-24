@@ -19,6 +19,10 @@ class MainViewModel @Inject constructor(private val useCase : TodoUseCase) : Vie
     private val _state = MutableStateFlow(TodoState())
     val todoState : StateFlow<TodoState> = _state
 
+    init {
+        getAllTodo()
+    }
+    //undoda bunu kullancam
     fun addTodo(todo: Todo) = viewModelScope.launch {
         useCase.addTodo(todo = todo).collectLatest {
             when(it){
@@ -85,7 +89,7 @@ class MainViewModel @Inject constructor(private val useCase : TodoUseCase) : Vie
         }
     }
 
-    fun getTodoById(todo: Todo) = viewModelScope.launch {
+    fun getTodoById(todo: Int) = viewModelScope.launch {
         useCase.getTodoWithId(todo = todo).collectLatest {
             when(it){
                 is Response.Loading->{

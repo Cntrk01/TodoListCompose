@@ -8,6 +8,6 @@ class TodoUseCase @Inject constructor(private val todoRepositoryImpl: TodoReposi
     suspend fun addTodo(todo: Todo) = todoRepositoryImpl.addTodo(todo = todo)
     suspend fun updateTodo(todo: Todo) = todoRepositoryImpl.updateTodo(todo = todo)
     suspend fun deleteTodo(todo: Todo) = todoRepositoryImpl.deleteTodo(todo = todo)
-    suspend fun getTodoWithId(todo: Todo) = todoRepositoryImpl.getTodoWithId(todo = todo)
-    suspend fun getAllTodo() = todoRepositoryImpl.getAllTodo()
+    suspend fun getTodoWithId(todo: Int) = todoRepositoryImpl.getTodoWithId(todo = todo)
+    fun getAllTodo() = todoRepositoryImpl.getAllTodo()
 }

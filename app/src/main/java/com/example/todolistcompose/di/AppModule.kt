@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Binds
+    @Provides
     @Singleton
     fun provideLocalDatabase (@ApplicationContext context: Context) : TodoDatabase{
         return Room.databaseBuilder(context = context, klass = TodoDatabase::class.java, name = "todo_db")
@@ -25,13 +25,13 @@ object AppModule {
             .build()
     }
 
-    @Binds
+    @Provides
     @Singleton
     fun provideTodoDao(db:TodoDatabase) : TodoDao {
         return db.todoDao()
     }
 
-    @Binds
+    @Provides
     @Singleton
     fun provideTodoRepositoryImpl(dao: TodoDao) : TodoRepositoryImpl{
         return TodoRepositoryImpl(todoDao = dao)
