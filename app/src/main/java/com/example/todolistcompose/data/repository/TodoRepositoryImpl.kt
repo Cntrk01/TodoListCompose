@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.processNextEventInCurrentThread
 import java.lang.Exception
 import javax.inject.Inject
 

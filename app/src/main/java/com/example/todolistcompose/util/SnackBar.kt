@@ -27,7 +27,7 @@ fun SnackBar(
                 onAction.invoke()
             }
             SnackbarResult.Dismissed->{
-
+                //burayada yine Unit olarak fonksiyon verilip işlem yapılabilir.
             }
         }
     }

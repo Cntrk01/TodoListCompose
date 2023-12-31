@@ -1,25 +1,16 @@
 package com.example.todolistcompose.ui.theme.home_screen.components
 
-import android.app.AlertDialog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,11 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todolistcompose.data.viewmodel.MainViewModel
@@ -42,7 +30,6 @@ import com.example.todolistcompose.domain.model.Todo
 import com.example.todolistcompose.util.toastMsg
 import kotlinx.coroutines.job
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlertDialogHomeScreen(
     openDialog: Boolean,
@@ -84,10 +71,7 @@ fun AlertDialogHomeScreen(
                         placeholder = "Add Title",
                         onDone = {
                             if (title.isBlank()) {
-                                toastMsg(
-                                    context = context,
-                                    message = "Title must not be null !!"
-                                )
+                                toastMsg(context = context, message = "Title must not be null !!")
                             }
                         },
                         onClear = { title = "" }
