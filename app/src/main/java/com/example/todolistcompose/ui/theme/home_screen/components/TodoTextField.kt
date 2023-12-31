@@ -1,6 +1,8 @@
 package com.example.todolistcompose.ui.theme.home_screen.components
 
-import android.graphics.fonts.FontFamily
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -30,34 +32,47 @@ fun TodoTextField(
     onDone: () -> Unit,
     onClear: () -> Unit
 ) {
-    TextField(
-        modifier = modifier.focusRequester(focusRequester = focusRequester),
-        value = value,
-        onValueChange = onValueChange,
-        placeholder = {
-            Text(
-                text = placeholder,
-                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
-            )
-        },
-        shape = RectangleShape,
-        keyboardOptions = KeyboardOptions(
-            capitalization = KeyboardCapitalization.Sentences,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                onDone.invoke()
-            }
-        ),
-        trailingIcon = {
-            IconButton(onClick = {onClear.invoke()}) {
-                Icon(
-                    imageVector = Icons.Rounded.Clear,
-                    contentDescription = "Clear"
+    Row {
+        TextField(
+            modifier = modifier.weight(2f)
+                .focusRequester(focusRequester = focusRequester)
+                .horizontalScroll(state = rememberScrollState()),
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
                 )
-            }
-        },
-        textStyle = taskTextStyle
-    )
+            },
+            shape = RectangleShape,
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onDone.invoke()
+                }
+            ),
+//        trailingIcon = {
+//            IconButton(onClick = {onClear.invoke()}) {
+//                Icon(
+//                    imageVector = Icons.Rounded.Clear,
+//                    contentDescription = "Clear"
+//                )
+//            }
+//        },
+            textStyle = taskTextStyle,
+            maxLines = 1,
+        )
+        IconButton(
+            onClick = { onClear.invoke() },
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Clear,
+                contentDescription = "Clear"
+            )
+        }
+    }
 }

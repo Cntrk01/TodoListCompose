@@ -27,6 +27,7 @@ class MainViewModel @Inject constructor(private val useCase : TodoUseCase) : Vie
         useCase.addTodo(todo = todo).collectLatest {
             when(it){
                 is Response.Loading->{
+                    //_state.value=TodoState() yada bu şekilde de yazabiliriz.
                     _state.update { itState->
                         itState.copy(isLoading = true)
                     }
@@ -76,6 +77,7 @@ class MainViewModel @Inject constructor(private val useCase : TodoUseCase) : Vie
                     }
                 }
                 is Response.Error->{
+
                     _state.update { itState->
                         itState.copy(errorMessage = itState.errorMessage)
                     }
@@ -91,6 +93,7 @@ class MainViewModel @Inject constructor(private val useCase : TodoUseCase) : Vie
 
     fun getTodoById(todo: Int) = viewModelScope.launch {
         useCase.getTodoWithId(todo = todo).collectLatest {
+
             when(it){
                 is Response.Loading->{
                     _state.update { itState->
@@ -104,14 +107,14 @@ class MainViewModel @Inject constructor(private val useCase : TodoUseCase) : Vie
                 }
                 else -> {
                     _state.update { itState->
-                        itState.copy(todoWithId =itState.todoWithId)
+                        itState.copy(todoWithId =it.data)
                     }
                 }
             }
         }
     }
 
-    fun getAllTodo() = viewModelScope.launch {
+    private fun getAllTodo() = viewModelScope.launch {
         useCase.getAllTodo().collectLatest {
             when(it){
                 is Response.Loading->{

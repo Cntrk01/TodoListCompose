@@ -77,7 +77,7 @@ fun HomeScreen(
                         .fillMaxSize()
                         .padding(paddingValues = paddingValues),
                     contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp) //dikeyde boşluk veriyor
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(
                             items = todoList,
@@ -94,9 +94,7 @@ fun HomeScreen(
                                         onAction = { mainViewModel.addTodo(todo = todo) }
                                     )
                                 },
-                                onUpdate = { onUpdate.invoke(it)
-                                println(it)
-                                }
+                                onUpdate = { onUpdate.invoke(it) }
                             )
                         }
                 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Todo List Compose</string>
+    <string name="save_note">Save Note</string>
 </resources>
