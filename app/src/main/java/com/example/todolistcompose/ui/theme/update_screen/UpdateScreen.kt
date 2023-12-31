@@ -26,6 +26,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -65,9 +66,10 @@ fun UpdateScreen(
     var title: String by remember { mutableStateOf("") }
     var description: String by remember { mutableStateOf("") }
     var isImportant: Boolean by remember { mutableStateOf(false) }
+    var sideEffectRun : Boolean by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = true, block = {
+        LaunchedEffect(key1 = true, block = {
         mainViewModel.getTodoById(todo = id)
 
         mainViewModel.todoState.collectLatest {
@@ -167,16 +169,24 @@ fun UpdateScreen(
                 } else if (description.isBlank()) {
                     toastMsg(context = context, "Description is not empty...")
                 } else {
+                    sideEffectRun=true
                     todos.todoWithId!!.title = title
                     todos.todoWithId!!.description = description
                     todos.todoWithId!!.isImportant = isImportant
-                    mainViewModel.updateTodo(todo = mainViewModel.todoState.value.todoWithId!!)
                     onBack.invoke()
                     toastMsg(context = context, message = "Note Saved..")
                 }
             }) {
                 Text(text = stringResource(R.string.save_note), fontSize = 16.sp)
             }
+        }
+    }
+    //Side effect veritabanı sorgu işlemlerinde performans arttırmak açısından işe yarar.UI üzerinde bir iş yapmaz
+    //UI hızlandırmak kullanıcıya daha iyi bir deneyim kazandırmak için kullanılır
+    //Performans odaklıdır.Suspend Fonksiyonları içide çalıştıramayız.Job işlemleri çalışabilir.
+    SideEffect {
+        if (sideEffectRun){
+            mainViewModel.updateTodo(todo = mainViewModel.todoState.value.todoWithId!!)
         }
     }
 }

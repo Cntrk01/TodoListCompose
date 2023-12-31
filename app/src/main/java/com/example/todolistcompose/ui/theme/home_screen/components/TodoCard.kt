@@ -39,24 +39,44 @@ fun TodoCard(
                 Icon(imageVector = Icons.Rounded.Check, contentDescription = null)
             }
             todo.title?.let {
-                Text(
-                    text = it.substring(0,5)+".." ,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(3f).padding(start = 10.dp),
-                    style = taskTextStyle,
-                )
+                if (it.length>5){
+                    Text(
+                        text = it.substring(0,5)+".." ,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(3f).padding(start = 10.dp),
+                        style = taskTextStyle,
+                    )
+                }else{
+                    Text(
+                        text = it ,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(3f).padding(start = 10.dp),
+                        style = taskTextStyle,
+                    )
+                }
             }
             Spacer(modifier = Modifier.padding(10.dp))
 
             todo.description?.let {
-                Text(
-                    text = it.substring(0,10)+"...",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(8f),
-                    style = taskTextStyle
-                )
+                if (it.length>10){
+                    Text(
+                        text = it.substring(0,10)+"...",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(8f),
+                        style = taskTextStyle
+                    )
+                }else{
+                    Text(
+                        text = it,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(8f),
+                        style = taskTextStyle
+                    )
+                }
             }
 
             if (todo.isImportant == true) {
